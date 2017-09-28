@@ -335,7 +335,7 @@ buildUrl req@(Req path qText mBody rAccept hs) baseurl =
                     , uriQuery = query }
     query = unpack $ renderQuery True $ queryTextToQuery qText
     baseURI Nothing = nullURI
-    baseURI (Just (BaseUrlSimplePath basePath) = nullURI { uriPath = basePath }
+    baseURI (Just (BaseUrlSimplePath basePath)) = nullURI { uriPath = basePath }
     baseURI (Just (BaseUrl scheme host port)) =
       nullURI {
         uriScheme = schemeText,
