@@ -194,7 +194,6 @@ performRequestNoBody reqMethod req wantedStatus reqHost = do
   return ()
 
 
-
 -- foreign import javascript unsafe "var XMLHttpRequest = require('xmlhttprequest').XMLHttpRequest; new XMLHttpRequest();"
 -- tests are performed with node. it doesnt natively hav XMLHttpRequest
 -- this makes this function useable in node or javascript
@@ -330,10 +329,13 @@ release = js_release
 
 buildUrl :: Req -> Maybe BaseUrl -> URI
 buildUrl req@(Req path qText mBody rAccept hs) baseurl =
-  (baseURI baseurl){uriPath = path, uriQuery = query}
+  construct (baseURI baseurl) {uriPath = path, uriQuery = query}
   where
+    construct uri = u { uriPath = uriPath u ++ path
+                      , uriQuery = query }
     query = unpack $ renderQuery True $ queryTextToQuery qText
     baseURI Nothing = nullURI
+    baseURI (Just (BaseUrlSimplePath basePath) = nullURI { uriPath = basePath }
     baseURI (Just (BaseUrl scheme host port)) =
       nullURI {
         uriScheme = schemeText,

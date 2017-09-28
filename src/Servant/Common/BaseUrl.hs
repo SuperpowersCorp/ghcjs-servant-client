@@ -27,13 +27,15 @@ data Scheme =
 
 -- | Simple data type to represent the target of HTTP requests
 --   for servant's automatically-generated clients.
-data BaseUrl = BaseUrl
-  { baseUrlScheme :: Scheme -- ^ URI scheme to use
-  , baseUrlHost :: String   -- ^ host (eg "haskell.org")
-  , baseUrlPort :: Int      -- ^ port (eg 80)
-  } deriving (Show, Eq, Ord, Generic)
+data BaseUrl = BaseUrlSimplePath String
+             | BaseUrl
+               { baseUrlScheme :: Scheme -- ^ URI scheme to use
+               , baseUrlHost :: String   -- ^ host (eg "haskell.org")
+               , baseUrlPort :: Int      -- ^ port (eg 80)
+               } deriving (Show, Eq, Ord, Generic)
 
 showBaseUrl :: BaseUrl -> String
+showBaseUrl (BaseUrlSimplePath s) = s
 showBaseUrl (BaseUrl urlscheme host port) =
   schemeString ++ "//" ++ host ++ portString
     where
