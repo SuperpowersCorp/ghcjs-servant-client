@@ -329,10 +329,10 @@ release = js_release
 
 buildUrl :: Req -> Maybe BaseUrl -> URI
 buildUrl req@(Req path qText mBody rAccept hs) baseurl =
-  construct (baseURI baseurl) {uriPath = path, uriQuery = query}
+  construct (baseURI baseurl)
   where
-    construct uri = u { uriPath = uriPath u ++ path
-                      , uriQuery = query }
+    construct u = u { uriPath = uriPath u ++ path
+                    , uriQuery = query }
     query = unpack $ renderQuery True $ queryTextToQuery qText
     baseURI Nothing = nullURI
     baseURI (Just (BaseUrlSimplePath basePath) = nullURI { uriPath = basePath }
